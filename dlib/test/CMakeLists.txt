@@ -209,6 +209,9 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 elseif (MSVC)
    # Treat warnings as errors.
    add_compile_options(/WX)
+   # MSBuild's --parallel only runs projects in parallel. dtest is one project with
+   # about 150 source files, so without /MP it compiles them one at a time.
+   target_compile_options(${target_name} PRIVATE /MP)
 else() # basically Clang
    # Treat warnings as errors, but do not turn on all warnings.
    add_compile_options(-W -Werror)
